@@ -23,6 +23,12 @@ If running this in VSCode, be sure to add "python.defaultInterpreterPath": "/pat
 
 If running this on Windows, activating the virtualenv may require `powershell Unblock-File -path \path\to\venv\Scripts\Activate.ps1`
 
-Create a virtualenv with your tool of choice, pip install the requirements.txt, cd into flask_app/src, and then `flask run`.
-
-CD into the react_app, run `npm i`, and then `npm start` (or the yarn equivalents, if preferred). It should open localhost:3000 automatically.
+### To Run
+1. Create a virtualenv with your tool of choice
+2. pip install the requirements.txt
+3. cd into flask_app/src
+4. `flask run`.
+5. in another tab, CD into react_app
+6. run `npm i` (or the yarn equivalent, if preferred)
+7. run `npm start`
+8. Navigate to localhost:3000 (if not done automatically)
