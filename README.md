@@ -17,6 +17,8 @@ Small POC of the MBTA API for the PaymentWorks demo
 - Never develop in Windows again (no Makefiles? All my scripts blocked by default? bro...)
 
 ### Setup
+Requires Python 3.9 (currently adding future.__annotations__ imports to make 3.8 back compatable). Also requires pip and npm (or yarn)
+
 If running this in VSCode, be sure to add "python.defaultInterpreterPath": "/path/to/your/venv/bin/python" to your vscode settings.json. If using intelliJ, right click and mark the "flask_app" directory as a content root. Other IDEs, you'll have to manually add the flask_app path to your PYTHONPATH. Happy to help if there are issues.
 
 If running this on Windows, activating the virtualenv may require `powershell Unblock-File -path \path\to\venv\Scripts\Activate.ps1`
