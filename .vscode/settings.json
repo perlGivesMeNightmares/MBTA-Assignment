@@ -1,0 +1,25 @@
+{
+    "python.envFile": "${workspaceFolder}/flask_app/venv",
+    "python.defaultInterpreterPath": "${workspaceFolder}/flask_app/venv/Scripts/python.exe",
+    "python.testing.pytestArgs": [
+        "${workspaceFolder}/flask_app"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.autoComplete.extraPaths": [
+
+        "${workspaceFolder}/flask_app"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/flask_app"
+    ],
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${workspaceFolder}/flask_app",
+    },
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/flask_app",
+    },
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}/flask_app",
+    }
+}
