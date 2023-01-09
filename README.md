@@ -2,13 +2,11 @@
 Small POC of the MBTA API for the PaymentWorks demo
 
 ### TODOs - Backend
-- Better caching
+- Basic caching
 - Try out compression options
-- Return actual errors to the front end
 - Flesh out unit tests with error cases and better mocking of outbound requests
 
 ### TODOs - Frontend
-- Make the UI less ugly
 - Better data flow so I don't pull stops so often
 - Finish typing everything and move to strict mode in tsconfig
 - Modularize my components

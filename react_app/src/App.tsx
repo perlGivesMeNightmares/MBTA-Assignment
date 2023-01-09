@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { EuiProvider, EuiBasicTable, EuiFlexGroup, EuiSpacer, EuiPage, EuiPageHeader, EuiButtonIcon, EuiListGroup, EuiListGroupItem, EuiText} 
+import { EuiProvider, EuiBasicTable, EuiFlexGroup, EuiSpacer, EuiPage, EuiPageHeader, EuiButtonIcon, EuiListGroup, EuiListGroupItem, EuiText } 
 from '@elastic/eui';
 import "@elastic/eui/dist/eui_theme_dark.css";
 import "@elastic/eui/dist/eui_theme_light.css";
@@ -12,7 +12,6 @@ Example route object:
   id: 'red',
   name: 'Red Line'
 }
-
 */
 
 
@@ -25,9 +24,18 @@ type TableProps = {
   routes: Route[]
 }
 
+export const StopsListGroup = ( { stops } ) => {
+  const stopsElms = stops.map(s => {
+    return <EuiListGroupItem label={s} />
+  })
+  return (
+    <EuiListGroup size="s" gutterSize="none"><EuiText><h5>Stops:</h5></EuiText>{stopsElms}</EuiListGroup>
+  )
+}
+
 export const Table: React.FC<TableProps> = ( props: TableProps ) => {
   const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
-  const [routeStopData, setRouteStopData] = useState<string[]>([])
+  const [routeStopData, setRouteStopData] = useState<Record<string, string[]>>({})
 
   const { routes } = props
 
@@ -39,17 +47,20 @@ export const Table: React.FC<TableProps> = ( props: TableProps ) => {
       return;
     }
 
+    if (item.id in routeStopData) {
+      // Have already pulled the stops for this route
+      itemIdToExpandedRowMapValues[item.id] = <StopsListGroup stops={routeStopData[item.id]}></StopsListGroup>
+      setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
+      return;
+    }
+
     fetch(`http://localhost:5000/get_mbta_subway_stops/${item.id}`)
       .then(response => response.json())
       .then(data => {
-        // This is a massive hack. I should be creating a state object of pattern {<route-type>: <stop_list>}
-        // and then updating that once we receive the value of the results.
-        const stopsElms = data["stops"].map(s => {
-          return <EuiListGroupItem label={s} />
-        })
-        itemIdToExpandedRowMapValues[item.id] = (
-          <EuiListGroup size="s" gutterSize="none"><EuiText><h5>Stops:</h5></EuiText>{stopsElms}</EuiListGroup>
-        )
+        setRouteStopData({[item.id]: data["stops"]})
+        // This is a hack. I should be setting some sort of "loading" text and then updating
+        // that to the actual stop list once we receive the value of the results.
+        itemIdToExpandedRowMapValues[item.id] = <StopsListGroup stops={data["stops"]}></StopsListGroup>
         setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
       })
   };
