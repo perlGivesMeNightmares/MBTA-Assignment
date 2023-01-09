@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { EuiProvider, EuiBasicTable, EuiFlexGroup, EuiSpacer, EuiPage, EuiPageHeader, EuiButtonIcon, EuiDescriptionList, EuiText} 
+import { EuiProvider, EuiBasicTable, EuiFlexGroup, EuiSpacer, EuiPage, EuiPageHeader, EuiButtonIcon, EuiListGroup, EuiListGroupItem, EuiText} 
 from '@elastic/eui';
 import "@elastic/eui/dist/eui_theme_dark.css";
 import "@elastic/eui/dist/eui_theme_light.css";
@@ -43,9 +43,13 @@ export const Table: React.FC<TableProps> = ( props: TableProps ) => {
       .then(response => response.json())
       .then(data => {
         // This is a massive hack. I should be creating a state object of pattern {<route-type>: <stop_list>}
-        // and then updating that once we receive the value of the results. This is heavily reliant on
-        // the backend to cache appropriately.
-        itemIdToExpandedRowMapValues[item.id] = <EuiText>{data["stops"].join(',')}</EuiText>;
+        // and then updating that once we receive the value of the results.
+        const stopsElms = data["stops"].map(s => {
+          return <EuiListGroupItem label={s} />
+        })
+        itemIdToExpandedRowMapValues[item.id] = (
+          <EuiListGroup size="s" gutterSize="none"><EuiText><h5>Stops:</h5></EuiText>{stopsElms}</EuiListGroup>
+        )
         setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
       })
   };
@@ -124,19 +128,8 @@ function App() {
         </EuiFlexGroup>
       </EuiPage>
     </EuiProvider>
-);
+  );
 
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <Table routes={routeData}></Table>
-  //       <div>{routeData ? 
-  //         <h3>{JSON.stringify(routeData)}</h3>
-  //         :
-  //         <h3>LOADING</h3>}</div>
-  //     </header>
-  //   </div>
-  // );
 }
 
 

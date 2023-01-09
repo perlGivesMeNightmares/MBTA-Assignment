@@ -1,9 +1,10 @@
-from flask_restful import Resource
+from flask import make_response
+from flask_restful import Resource, abort
 from src.core_commands.get_subway_stops import (
     get_subway_stops,
     GetStopsUnexpectedResponseJsonFormatError,
 )
-from src.service_facade.mbta_request import TooManyRequestsException
+from src.service_facade.mbta_request import TooManyRequestsError
 
 
 class GetMBTASubwayStops(Resource):
@@ -11,8 +12,7 @@ class GetMBTASubwayStops(Resource):
         try:
             return {"stops": get_subway_stops(route_id)}
         except GetStopsUnexpectedResponseJsonFormatError:
-            # TODO: look up how flask returns error
-            return {"status": 500}
-        except TooManyRequestsException:
-            # Same as above, probably better to just retry with backoff
-            return {"status": 500}
+           abort(make_response({"message": "Bad request"}, 400))
+        except TooManyRequestsError:
+            # TODO: Check for the various types of custom errors and provide detail in this res
+            abort(make_response({"message": "Add some error info"}, 500))
