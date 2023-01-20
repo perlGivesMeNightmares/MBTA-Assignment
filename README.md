@@ -1,5 +1,5 @@
 # MBTA-Demo
-Small POC of the MBTA API for the PaymentWorks demo
+Small POC of the MBTA API
 
 ### TODOs - Backend
 - Basic caching
